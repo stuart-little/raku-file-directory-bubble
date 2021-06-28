@@ -22,6 +22,25 @@ The module provides the executable C<bin/bbrm> for access to (what I believe wou
 
 First, you can run C<bbrm --help> for a quick breakdown of the usage. For the examples, I will assume access to the L<tree|https://linux.die.net/man/1/tree> utility in order to visualize the directory structure that C<bbrm> is meant to alter.
 
+Throughout, assume you're in a directory with the following structure:
+
+=begin code
+$ tree .
+.
+├── a
+│   ├── b
+│   │   └── c
+│   ├── b1
+│   │   └── c
+│   │       └── d
+│   └── b2
+│       └── c
+│           └── d
+└── foo.txt
+
+9 directories, 1 file
+=end code
+     
 =end pod
 
 sub listParents(IO::Path $file) is export {

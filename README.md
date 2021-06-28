@@ -25,3 +25,20 @@ The module provides the executable `bin/bbrm` for access to (what I believe woul
 
 First, you can run `bbrm --help` for a quick breakdown of the usage. For the examples, I will assume access to the [tree](https://linux.die.net/man/1/tree) utility in order to visualize the directory structure that `bbrm` is meant to alter.
 
+Throughout, assume you're in a directory with the following structure:
+
+    $ tree .
+    .
+    ├── a
+    │   ├── b
+    │   │   └── c
+    │   ├── b1
+    │   │   └── c
+    │   │       └── d
+    │   └── b2
+    │       └── c
+    │           └── d
+    └── foo.txt
+
+    9 directories, 1 file
+
