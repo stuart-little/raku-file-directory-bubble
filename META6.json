@@ -1,0 +1,15 @@
+    {
+	"name" : "File::Directory::Bubble",
+	"license" : "Artistic-2.0",
+	"version" : "0.1",
+	"tags" : [ ],
+	"description" : "",
+	"provides" : {
+	},
+        "auth" : "zef:stuart-little",
+	"authors" : [ "stuart-little" ],
+	"perl" : "6.d",
+	"depends" : [ ],
+	"source-type" : "git",
+	"source-url" : ""
+}
