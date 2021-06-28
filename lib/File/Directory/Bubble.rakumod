@@ -108,17 +108,23 @@ Would remove:
 
 =begin pod
 =head2 Module functions 
+
+The library C<lib/File/Directory/Bubble.rakumod> exports a number of functions, some of which are used by the C<bbrm> utility discussed above.
+
+A summary follows.
 =end pod
 
-#| List the argument's parents, as far up as possible
+#| List the argument's parents, as far up as possible.
 sub listParents(IO::Path $file) is export {
     return ($file, { $_.parent.resolve } ... *.Str eq '.' | '/').[1..*]
 }
 
+#| Starting with a file, walk up its parent list until a callback function (of your choosing) returns false. Returns the list of parents for which the callback holds.
 sub bbUpWith(IO::Path $file, &cond) is export {
     ([\,] ($file.resolve, |listParents($file))).[1..*].first({ ! $_.&cond }).head(*-1)
 }
 
+#| Check whether a directory has no children except those in a given list.
 sub noChildrenExcept(IO::Path $dir where *.d, $fList) is export {
     ($dir.dir.map({.resolve.Str}) (-) $fList.map({.resolve.Str})).elems == 0;
 }
@@ -131,12 +137,13 @@ sub bbUpEmpty(IO::Path $file, $fList) is export {
     return bbUpWith($file, &has1childExcept.assuming(*,$fList));
 }
 
+#| Recurse down a directory, retrieving the files/directories under it.
 sub bbDown(IO::Path $file) is export {
     ($file.f || ($file.d && (! $file.dir))) && return [$file.resolve,];
     ($file.d) && return [|$file.dir.map({ |$_.&bbDown }),$file.resolve];    
 }
 
-#| Unlink a file or remove an empty directory
+#| Unlink a file or remove an empty directory.
 sub smartRm(IO::Path $file) is export {
     $file.f ?? (unlink $file) !! (rmdir $file);
 }

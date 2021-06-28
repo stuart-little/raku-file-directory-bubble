@@ -100,6 +100,10 @@ Though again, that only happens with the `--up` flag. Without it you're only del
 Module functions 
 -----------------
 
+The library `lib/File/Directory/Bubble.rakumod` exports a number of functions, some of which are used by the `bbrm` utility discussed above.
+
+A summary follows.
+
 ### sub listParents
 
 ```raku
@@ -108,7 +112,39 @@ sub listParents(
 ) returns Mu
 ```
 
-List the argument's parents, as far up as possible
+List the argument's parents, as far up as possible.
+
+### sub bbUpWith
+
+```raku
+sub bbUpWith(
+    IO::Path $file,
+    &cond
+) returns Mu
+```
+
+Starting with a file, walk up its parent list until a callback function (of your choosing) returns false. Returns the list of parents for which the callback holds.
+
+### sub noChildrenExcept
+
+```raku
+sub noChildrenExcept(
+    IO::Path $dir where { ... },
+    $fList
+) returns Mu
+```
+
+Check whether a directory has no children except those in a given list.
+
+### sub bbDown
+
+```raku
+sub bbDown(
+    IO::Path $file
+) returns Mu
+```
+
+Recurse down a directory, retrieving the files/directories under it.
 
 ### sub smartRm
 
@@ -118,5 +154,5 @@ sub smartRm(
 ) returns Mu
 ```
 
-Unlink a file or remove an empty directory
+Unlink a file or remove an empty directory.
 
