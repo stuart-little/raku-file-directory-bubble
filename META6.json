@@ -2,14 +2,15 @@
 	"name" : "File::Directory::Bubble",
 	"license" : "Artistic-2.0",
 	"version" : "0.1",
-	"tags" : [ ],
-	"description" : "",
+	"tags" : [ "filesystem", "utils" ],
+	"description" : "remove files recursively, up or down the directory tree",
 	"provides" : {
+	    "File::Directory::Bubble": "lib/File/Directory/Bubble"
 	},
         "auth" : "zef:stuart-little",
 	"authors" : [ "stuart-little" ],
 	"perl" : "6.d",
 	"depends" : [ ],
 	"source-type" : "git",
-	"source-url" : ""
+	"source-url" : "https://github.com/stuart-little/raku-file-directory-bubble.git"
 }
