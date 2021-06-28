@@ -44,6 +44,7 @@ $ tree .
 I will run the C<bbrm> command with the C<--dry> option, so it only shows us what it would remove.
 
 =begin code
+
 $ bbrm a/b* --dry
 
 Would remove:
@@ -55,11 +56,13 @@ Would remove:
 <fully-expanded path>/a/b2/c/d
 <fully-expanded path>/a/b2/c
 <fully-expanded path>/a/b2   
+
 =end code
 
 As expected, that would remove everything under the directories C<./a/b*>. On the other hand, the C<--up> flag would also remove the C<./a> directory, because it would become empty upon removing the other ones:
 
 =begin code
+
 $ bbrm a/b* --dry --up
 
 Would remove:
@@ -72,11 +75,13 @@ Would remove:
 <fully-expanded path>/a/b/c
 <fully-expanded path>/a/b
 <fully-expanded path>/a
+
 =end code
 
 In fact, the same would happen if you were to first remove everything at lower levels: empty-directory deletion would still bubble up.
 
 =begin code
+
 $ bbrm a/b*/c --dry --up
 
 Would remove:
@@ -89,11 +94,13 @@ Would remove:
 <fully-expanded path>/a/b/c
 <fully-expanded path>/a/b
 <fully-expanded path>/a
+
 =end code
 
 Though again, that only happend with the C<--up> flag:
 
 =begin code
+
 $ bbrm a/b*/c --dry
 
 Would remove:
@@ -102,6 +109,7 @@ Would remove:
 <fully-expanded path>/a/b1/c
 <fully-expanded path>/a/b2/c/d
 <fully-expanded path>/a/b2/c
+
 =end code
 
 =end pod
