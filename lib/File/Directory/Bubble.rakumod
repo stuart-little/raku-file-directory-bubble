@@ -15,6 +15,13 @@ With L<zef|https://github.com/ugexe/zef>:
 =item just running C<zef install File::Directory::Bubble> should work once the module has been indexed;
 =item or clone this repo and issue C<zef install <path-to-cloned-repo>>;
 =item or clone, C<cd> into the repo, and C<zef install .>.
+
+=head2 Usage 
+
+The module provides the executable C<bin/bbrm> for access to (what I believe would be) the most common functionality.
+
+First, you can run C<bbrm --help> for a quick breakdown of the usage. For the examples, I will assume access to the L<tree|https://linux.die.net/man/1/tree> utility in order to visualize the directory structure that C<bbrm> is meant to alter.
+
 =end pod
 
 sub listParents(IO::Path $file) is export {

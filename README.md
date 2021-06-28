@@ -18,3 +18,10 @@ With [zef](https://github.com/ugexe/zef):
 
   * or clone, `cd` into the repo, and `zef install .`.
 
+Usage 
+------
+
+The module provides the executable `bin/bbrm` for access to (what I believe would be) the most common functionality.
+
+First, you can run `bbrm --help` for a quick breakdown of the usage. For the examples, I will assume access to the [tree](https://linux.die.net/man/1/tree) utility in order to visualize the directory structure that `bbrm` is meant to alter.
+
