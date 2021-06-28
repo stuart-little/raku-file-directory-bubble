@@ -5,7 +5,7 @@
 	"tags" : [ "filesystem", "utils" ],
 	"description" : "remove files recursively, up or down the directory tree",
 	"provides" : {
-	    "File::Directory::Bubble": "lib/File/Directory/Bubble"
+	    "File::Directory::Bubble": "lib/File/Directory/Bubble.rakumod"
 	},
         "auth" : "zef:stuart-little",
 	"authors" : [ "stuart-little" ],
