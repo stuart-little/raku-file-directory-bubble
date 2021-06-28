@@ -5,17 +5,10 @@ use File::Directory::Bubble;
 
 my %*SUB-MAIN-OPTS=:named-anywhere,;
 sub MAIN(
-    Bool :h(:$help),
-    Bool :n(:$dry) = False,    
-    Bool :u(:$up) = False,
-    *@FILES,
+    Bool :n(:$dry) = False, #= don't actually remove anything, just show a list ofnfiles that would be removed
+    Bool :u(:$up) = False, #= boolean flag that turns on recursion up the directory tree
+    *@FILES, #= the list of files to remove
     ) {
-
-    ($help) && do {
-	my $cmd=qq{less $*PROGRAM-NAME};
-	shell($cmd);
-	exit;
-    }
 
     my @down = @FILES.map({ |$_.IO.&bbDown }).unique(with => {$^a.Str eq $^b.Str});
     my @all = ($up) ?? ([|@down,|@FILES.map({ |$_.IO.&(&bbUpEmpty.assuming(*,@down)) })].unique(with => {$^a.Str eq $^b.Str})) !! (@down);
@@ -23,8 +16,6 @@ sub MAIN(
     ($dry) && do {
 	("Would remove:", |@all>>.Str).map(*.say);
 	exit;
-    }
-
-    
+    }    
 }
 
