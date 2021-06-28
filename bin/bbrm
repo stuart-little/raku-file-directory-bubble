@@ -11,7 +11,7 @@ sub MAIN(
     ) {
 
     my @down = @FILES.map({ |$_.IO.&bbDown }).unique(with => {$^a.Str eq $^b.Str});
-    my @up = @FILES.map({ |$_.IO.&(&bbUpEmpty.assuming(*,[])) });
+    my @up = @FILES.map({ |$_.IO.&(&bbUpEmpty.assuming(*,[])) }).unique(with => {$^a.Str eq $^b.Str});
 
     my @all = ($up) ?? ([|@down,|@FILES.map({ |$_.IO.&(&bbUpEmpty.assuming(*,[|@down,|@up])) })].unique(with => {$^a.Str eq $^b.Str})) !! (@down);
     # my @all = ($up) ?? ([|@down,|@FILES.map({ |$_.IO.&(&bbUpEmpty.assuming(*,@down)) })].unique(with => {$^a.Str eq $^b.Str})) !! (@down);
