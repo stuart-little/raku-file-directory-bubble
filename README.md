@@ -42,3 +42,58 @@ Throughout, assume you're in a directory with the following structure:
 
     9 directories, 1 file
 
+I will run the `bbrm` command with the `--dry` option, so it only shows us what it would remove.
+
+    $ bbrm a/b* --dry
+
+    Would remove:
+    <fully-expanded path>/a/b/c
+    <fully-expanded path>/a/b
+    <fully-expanded path>/a/b1/c/d
+    <fully-expanded path>/a/b1/c
+    <fully-expanded path>/a/b1
+    <fully-expanded path>/a/b2/c/d
+    <fully-expanded path>/a/b2/c
+    <fully-expanded path>/a/b2
+
+As expected, that would remove everything under the directories `./a/b*`. On the other hand, the `--up` flag would also remove the `./a` directory, because it would become empty upon removing the other ones:
+
+    $ bbrm a/b* --dry --up
+
+    Would remove:
+    <fully-expanded path>/a/b2/c/d
+    <fully-expanded path>/a/b2/c
+    <fully-expanded path>/a/b2
+    <fully-expanded path>/a/b1/c/d
+    <fully-expanded path>/a/b1/c
+    <fully-expanded path>/a/b1
+    <fully-expanded path>/a/b/c
+    <fully-expanded path>/a/b
+    <fully-expanded path>/a
+
+In fact, the same would happen if you were to first remove everything at lower levels: empty-directory deletion would still bubble up.
+
+    $ bbrm a/b*/c --dry --up
+
+    Would remove:
+    <fully-expanded path>/a/b2/c/d
+    <fully-expanded path>/a/b2/c
+    <fully-expanded path>/a/b2
+    <fully-expanded path>/a/b1/c/d
+    <fully-expanded path>/a/b1/c
+    <fully-expanded path>/a/b1
+    <fully-expanded path>/a/b/c
+    <fully-expanded path>/a/b
+    <fully-expanded path>/a
+
+Though again, that only happend with the `--up` flag:
+
+    $ bbrm a/b*/c --dry
+
+    Would remove:
+    <fully-expanded path>/a/b/c
+    <fully-expanded path>/a/b1/c/d
+    <fully-expanded path>/a/b1/c
+    <fully-expanded path>/a/b2/c/d
+    <fully-expanded path>/a/b2/c
+
