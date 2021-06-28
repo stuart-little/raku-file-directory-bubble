@@ -2,8 +2,8 @@
 
 A file-removal tool that
 
-- optionally recurses deletion up the directory tree until it hits a non-empty directory;
-- allows for dry runs, only showing you what would be deleted.
+- optionally bubbles deletion up the directory tree until it hits a non-empty directory;
+- allows for dry runs, only showing you what *would* be deleted.
 
 ## Installation
 
