@@ -16,6 +16,7 @@ sub MAIN(
     ($dry) && do {
 	("Would remove:", |@all>>.Str).map(*.say);
 	exit;
-    }    
-}
+    }
 
+    @all.map({ say "Removing " ~ $_.Str; $_.&smartRm });
+}
