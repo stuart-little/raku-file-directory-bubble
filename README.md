@@ -86,7 +86,7 @@ In fact, the same would happen if you were to first remove everything at lower l
     <fully-expanded path>/a/b
     <fully-expanded path>/a
 
-Though again, that only happend with the `--up` flag:
+Though again, that only happens with the `--up` flag. Without it you're only deleting *down* the directory tree.
 
     $ bbrm a/b*/c --dry
 
@@ -96,4 +96,27 @@ Though again, that only happend with the `--up` flag:
     <fully-expanded path>/a/b1/c
     <fully-expanded path>/a/b2/c/d
     <fully-expanded path>/a/b2/c
+
+Module functions 
+-----------------
+
+### sub listParents
+
+```raku
+sub listParents(
+    IO::Path $file
+) returns Mu
+```
+
+List the argument's parents, as far up as possible
+
+### sub smartRm
+
+```raku
+sub smartRm(
+    IO::Path $file
+) returns Mu
+```
+
+Unlink a file or remove an empty directory
 
