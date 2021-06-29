@@ -111,7 +111,7 @@ Would remove:
 
 There's of course L<File::Directory::Tree|https://github.com/labster/p6-file-directory-tree>, but because it L<deletes|https://github.com/labster/p6-file-directory-tree/blob/master/lib/File/Directory/Tree.pm> files/directories recursively using L<unlink|https://docs.raku.org/routine/unlink#(IO::Path)_routine_unlink> and L<rmdir|https://docs.raku.org/type/IO::Path#routine_rmdir>, it's not easy to build a C<--dry> option on top of it:
 
-If you're doing a dry run you're not actually empty-ing directories, so L<rmdir|https://docs.raku.org/type/IO::Path#routine_rmdir> doesn't know what it I<would> remove if you I<were>..
+If you're doing a dry run you're not actually emptying directories, so L<rmdir|https://docs.raku.org/type/IO::Path#routine_rmdir> doesn't know what it I<would> remove if you I<were>..
 =end pod
 
 =begin pod
@@ -131,6 +131,18 @@ sub listParents(IO::Path $file) is export {
 sub bbUpWith(IO::Path $file, &cond) is export {
     ([\,] ($file.resolve, |listParents($file))).[1..*].first({ ! $_.&cond }).head(*-1)
 }
+
+=begin pod
+Starting with the C<$file> you pass in, it builds the increasingly longer lists of ancestors, as in
+
+=item C<$file, parent>
+=item C<$file, parent, parent-of-parent>
+=item etc.
+
+The predicate C<&cond> is called on these lists, so there's quite a bit of generality built into the kinds of conditions you can check for.
+
+The iteration stops when C<&cond> first returns false, giving you back the last list of parents I<before> that happened.
+=end pod
 
 #| Check whether a directory has no children except those in a given list.
 sub noChildrenExcept(IO::Path $dir where *.d, $fList) is export {

@@ -102,7 +102,7 @@ Other modules in the **Raku** ecosystem
 
 There's of course [File::Directory::Tree](https://github.com/labster/p6-file-directory-tree), but because it [deletes](https://github.com/labster/p6-file-directory-tree/blob/master/lib/File/Directory/Tree.pm) files/directories recursively using [unlink](https://docs.raku.org/routine/unlink#(IO::Path)_routine_unlink) and [rmdir](https://docs.raku.org/type/IO::Path#routine_rmdir), it's not easy to build a `--dry` option on top of it:
 
-If you're doing a dry run you're not actually empty-ing directories, so [rmdir](https://docs.raku.org/type/IO::Path#routine_rmdir) doesn't know what it *would* remove if you *were*..
+If you're doing a dry run you're not actually emptying directories, so [rmdir](https://docs.raku.org/type/IO::Path#routine_rmdir) doesn't know what it *would* remove if you *were*..
 
 Module functions 
 -----------------
@@ -131,6 +131,18 @@ sub bbUpWith(
 ```
 
 Starting with a file, walk up its parent list until a callback function (of your choosing) returns false. Returns the list of parents for which the callback holds.
+
+Starting with the `$file` you pass in, it builds the increasingly longer lists of ancestors, as in
+
+  * `$file, parent`
+
+  * `$file, parent, parent-of-parent`
+
+  * etc.
+
+The predicate `&cond` is called on these lists, so there's quite a bit of generality built into the kinds of conditions you can check for.
+
+The iteration stops when `&cond` first returns false, giving you back the last list of parents *before* that happened.
 
 ### sub noChildrenExcept
 
