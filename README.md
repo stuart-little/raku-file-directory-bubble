@@ -97,6 +97,13 @@ Though again, that only happens with the `--up` flag. Without it you're only del
     <fully-expanded path>/a/b2/c/d
     <fully-expanded path>/a/b2/c
 
+Other modules in the **Raku** ecosystem
+---------------------------------------
+
+There's of course [File::Directory::Tree](https://github.com/labster/p6-file-directory-tree), but because it [deletes](https://github.com/labster/p6-file-directory-tree/blob/master/lib/File/Directory/Tree.pm) files/directories recursively using [unlink](https://docs.raku.org/routine/unlink#(IO::Path)_routine_unlink) and [rmdir](https://docs.raku.org/type/IO::Path#routine_rmdir), it's not easy to build a `--dry` option on top of it:
+
+If you're doing a dry run you're not actually empty-ing directories, so [rmdir](https://docs.raku.org/type/IO::Path#routine_rmdir) doesn't know what it *would* remove if you *were*..
+
 Module functions 
 -----------------
 
@@ -135,6 +142,34 @@ sub noChildrenExcept(
 ```
 
 Check whether a directory has no children except those in a given list.
+
+### sub has1childExcept
+
+```raku
+sub has1childExcept(
+    $dirList,
+    $fList
+) returns Mu
+```
+
+A check whether, in a lost of directories, the last one's children consist at most of the next-to-last one plus a list you pass as a second argument.
+
+This is a utility function, for use with `&bbUpWith` above to produce `&bbUpEmpty` below.
+
+### sub bbUpEmpty
+
+```raku
+sub bbUpEmpty(
+    IO::Path $file,
+    $fList
+) returns Mu
+```
+
+Given a file and a list of other files, bubble up the parent list of the former until you hit directories that have other children, apart from the list you passed and the children you've already walked over.
+
+This function allows the `bbrm` script to list what it *would* remove upon passing the `--up` flag, even during a `--dry` run.
+
+You can presumably build your own more complicated examples using the more general callback-driven `&bbUpWith` above.
 
 ### sub bbDown
 

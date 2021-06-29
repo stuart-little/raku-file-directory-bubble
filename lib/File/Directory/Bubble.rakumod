@@ -107,6 +107,14 @@ Would remove:
 =end pod
 
 =begin pod
+=head2 Other modules in the B<Raku> ecosystem
+
+There's of course L<File::Directory::Tree|https://github.com/labster/p6-file-directory-tree>, but because it L<deletes|https://github.com/labster/p6-file-directory-tree/blob/master/lib/File/Directory/Tree.pm> files/directories recursively using L<unlink|https://docs.raku.org/routine/unlink#(IO::Path)_routine_unlink> and L<rmdir|https://docs.raku.org/type/IO::Path#routine_rmdir>, it's not easy to build a C<--dry> option on top of it:
+
+If you're doing a dry run you're not actually empty-ing directories, so L<rmdir|https://docs.raku.org/type/IO::Path#routine_rmdir> doesn't know what it I<would> remove if you I<were>..
+=end pod
+
+=begin pod
 =head2 Module functions 
 
 The library C<lib/File/Directory/Bubble.rakumod> exports a number of functions, some of which are used by the C<bbrm> utility discussed above.
@@ -129,13 +137,25 @@ sub noChildrenExcept(IO::Path $dir where *.d, $fList) is export {
     ($dir.dir.map({.resolve.Str}) (-) $fList.map({.resolve.Str})).elems == 0;
 }
 
+#| A check whether, in a lost of directories, the last one's children consist at most of the next-to-last one plus a list you pass as a second argument.
 sub has1childExcept($dirList,$fList) is export {
     noChildrenExcept($dirList.[*-1], [$dirList.[*-2], |$fList]);
 }
 
+=begin pod
+This is a utility function, for use with C<&bbUpWith> above to produce C<&bbUpEmpty> below.
+=end pod
+
+#| Given a file and a list of other files, bubble up the parent list of the former until you hit directories that have other children, apart from the list you passed and the children you've already walked over.
 sub bbUpEmpty(IO::Path $file, $fList) is export {
     return bbUpWith($file, &has1childExcept.assuming(*,$fList));
 }
+
+=begin pod
+This function allows the C<bbrm> script to list what it I<would> remove upon passing the C<--up> flag, even during a C<--dry> run.
+
+You can presumably build your own more complicated examples using the more general callback-driven C<&bbUpWith> above.
+=end pod
 
 #| Recurse down a directory, retrieving the files/directories under it.
 sub bbDown(IO::Path $file) is export {
